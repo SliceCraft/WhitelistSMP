@@ -1,0 +1,6 @@
+nl\slicegames\whitelistsmp\utils\armoreffects\EffectType.class
+nl\slicegames\whitelistsmp\WhitelistSMP.class
+nl\slicegames\whitelistsmp\listeners\PlayerArmorChangeListener.class
+nl\slicegames\whitelistsmp\commands\ArmorEffectsCommand.class
+nl\slicegames\whitelistsmp\utils\armoreffects\ArmorType.class
+nl\slicegames\whitelistsmp\utils\armoreffects\TrimType.class

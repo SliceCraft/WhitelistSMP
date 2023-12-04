@@ -1,6 +1,15 @@
 nl\slicegames\whitelistsmp\utils\armoreffects\EffectType.class
+nl\slicegames\whitelistsmp\utils\NBTHandler.class
+nl\slicegames\whitelistsmp\utils\armoreffects\TrimPatternToMaterial.class
+nl\slicegames\whitelistsmp\gui\itemeffects\EditItemEffectGUI.class
+nl\slicegames\whitelistsmp\commands\ArmorEffectsCommand.class
+nl\slicegames\whitelistsmp\gui\itemeffects\ItemEffectsGUI.class
+nl\slicegames\whitelistsmp\utils\armoreffects\TrimPatternToMaterial$1.class
+nl\slicegames\whitelistsmp\listeners\InventoryClickListener.class
+nl\slicegames\whitelistsmp\utils\armoreffects\ArmorEffectsNBTDefaultData.class
+nl\slicegames\whitelistsmp\utils\armoreffects\ArmorType.class
+nl\slicegames\whitelistsmp\utils\gui\GUIHandler.class
 nl\slicegames\whitelistsmp\WhitelistSMP.class
 nl\slicegames\whitelistsmp\listeners\PlayerArmorChangeListener.class
-nl\slicegames\whitelistsmp\commands\ArmorEffectsCommand.class
-nl\slicegames\whitelistsmp\utils\armoreffects\ArmorType.class
+nl\slicegames\whitelistsmp\gui\itemeffects\ItemEffectGUI.class
 nl\slicegames\whitelistsmp\utils\armoreffects\TrimType.class

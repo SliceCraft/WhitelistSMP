@@ -1,6 +1,7 @@
 package nl.slicegames.whitelistsmp.gui.itemeffects;
 
 import nl.slicegames.whitelistsmp.WhitelistSMP;
+import nl.slicegames.whitelistsmp.utils.ConfigHandler;
 import nl.slicegames.whitelistsmp.utils.NBTHandler;
 import nl.slicegames.whitelistsmp.utils.armoreffects.*;
 import nl.slicegames.whitelistsmp.utils.gui.GUIHandler;
@@ -14,9 +15,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 
-import java.util.ArrayList;
-import java.util.Set;
-
 public class ItemEffectGUI {
     static Plugin plugin = WhitelistSMP.getPlugin(WhitelistSMP.class);
 
@@ -24,11 +22,14 @@ public class ItemEffectGUI {
         Inventory inventory = GUIHandler.createDefaultInventory(54, ChatColor.RED + "ArmorEffect");
 
         ItemStack helmet = new ItemStack(armorType.getHelmet());
-        ItemStack trim = new ItemStack(TrimPatternToMaterial.convert(trimType));
+        ItemStack trim = TypeToItemStack.convertTrim(trimType);
+        ItemStack potion = TypeToItemStack.convertEffectToPotion(effectType, strength);
         ArmorEffectsNBTDefaultData.addNBTDataToItems(helmet, effectid, armorType, trimType, effectType, strength);
         ArmorEffectsNBTDefaultData.addNBTDataToItems(trim, effectid,armorType, trimType, effectType, strength);
+        ArmorEffectsNBTDefaultData.addNBTDataToItems(potion, effectid,armorType, trimType, effectType, strength);
         inventory.setItem(10, helmet);
         inventory.setItem(13, trim);
+        inventory.setItem(16, potion);
 
         ItemStack item1 = new ItemStack(Material.BARRIER);
         ItemMeta item1Meta = item1.getItemMeta();
@@ -75,8 +76,18 @@ public class ItemEffectGUI {
             ItemEffectsGUI.openGui((Player) event.getWhoClicked());
         } else if (clickedItem.getType() == Material.TNT) {
             event.getWhoClicked().sendMessage("Placeholder for delete");
-        } else if (event.getSlot() == 10){
-            EditItemEffectGUI.openGui((Player) event.getWhoClicked(), id, ArmorType.valueOf(NBTHandler.getInt(clickedItem, "armoreffect-type")), TrimType.valueOf(NBTHandler.getInt(clickedItem, "armoreffect-trim")), EffectType.valueOf(NBTHandler.getInt(clickedItem, "armoreffect-effect")), NBTHandler.getInt(clickedItem, "armoreffect-strength"), 0);
+        } else {
+            if(!event.getWhoClicked().hasPermission("whitelistsmp.armoreffects")) return;
+            if (event.getSlot() == 10){
+                EditItemEffectGUI.openGui((Player) event.getWhoClicked(), id, ArmorType.valueOf(NBTHandler.getInt(clickedItem, "armoreffect-type")), TrimType.valueOf(NBTHandler.getInt(clickedItem, "armoreffect-trim")), EffectType.valueOf(NBTHandler.getInt(clickedItem, "armoreffect-effect")), NBTHandler.getInt(clickedItem, "armoreffect-strength"), 0);
+            } else if (event.getSlot() == 13){
+                EditItemEffectGUI.openGui((Player) event.getWhoClicked(), id, ArmorType.valueOf(NBTHandler.getInt(clickedItem, "armoreffect-type")), TrimType.valueOf(NBTHandler.getInt(clickedItem, "armoreffect-trim")), EffectType.valueOf(NBTHandler.getInt(clickedItem, "armoreffect-effect")), NBTHandler.getInt(clickedItem, "armoreffect-strength"), 1);
+            } else if (event.getSlot() == 16){
+                EditItemEffectGUI.openGui((Player) event.getWhoClicked(), id, ArmorType.valueOf(NBTHandler.getInt(clickedItem, "armoreffect-type")), TrimType.valueOf(NBTHandler.getInt(clickedItem, "armoreffect-trim")), EffectType.valueOf(NBTHandler.getInt(clickedItem, "armoreffect-effect")), NBTHandler.getInt(clickedItem, "armoreffect-strength"), 2);
+            } else if (event.getSlot() == 37){
+                if(id != null) ConfigHandler.updateExistingEffect(plugin, id, ArmorType.valueOf(NBTHandler.getInt(clickedItem, "armoreffect-type")), TrimType.valueOf(NBTHandler.getInt(clickedItem, "armoreffect-trim")), EffectType.valueOf(NBTHandler.getInt(clickedItem, "armoreffect-effect")), NBTHandler.getInt(clickedItem, "armoreffect-strength"));
+                ItemEffectsGUI.openGui((Player) event.getWhoClicked());
+            }
         }
     }
 }

@@ -3,8 +3,7 @@ package nl.slicegames.whitelistsmp.gui.itemeffects;
 import nl.slicegames.whitelistsmp.WhitelistSMP;
 import nl.slicegames.whitelistsmp.utils.NBTHandler;
 import nl.slicegames.whitelistsmp.utils.armoreffects.ArmorType;
-import nl.slicegames.whitelistsmp.utils.armoreffects.EffectType;
-import nl.slicegames.whitelistsmp.utils.armoreffects.TrimPatternToMaterial;
+import nl.slicegames.whitelistsmp.utils.armoreffects.TypeToItemStack;
 import nl.slicegames.whitelistsmp.utils.armoreffects.TrimType;
 import nl.slicegames.whitelistsmp.utils.gui.GUIHandler;
 import org.bukkit.ChatColor;
@@ -35,11 +34,10 @@ public class ItemEffectsGUI {
             ArmorType armorType = ArmorType.valueOf(config.getInt("armoreffects." + armorKeyList.get(i) + ".type"));
             TrimType trimType = TrimType.valueOf(config.getInt("armoreffects." + armorKeyList.get(i) + ".trim"));
             ItemStack helmet = new ItemStack(armorType.getHelmet());
-            ItemStack trim = new ItemStack(TrimPatternToMaterial.convert(trimType));
+            ItemStack trim = TypeToItemStack.convertTrim(trimType);
             NBTHandler.setInt(helmet, "armoreffect-id", i);
             NBTHandler.setInt(trim, "armoreffect-id", i);
             if (i >= 0 && i <= 8) {
-                System.out.println(i);
                 inventory.setItem(i, helmet);
                 inventory.setItem(i + 9, trim);
             } else if (i >= 9 && i <= 17) {

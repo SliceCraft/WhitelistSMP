@@ -6,7 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum EffectType {
-    SPEED(0, PotionEffectType.SPEED);
+    SPEED(0, PotionEffectType.SPEED),
+    SLOWNESS(1, PotionEffectType.SLOW);
 
     private int value;
     private PotionEffectType effectType;

@@ -14,6 +14,8 @@ public final class WhitelistSMP extends JavaPlugin {
         getCommand("armoreffects").setExecutor(new ArmorEffectsCommand());
         getServer().getPluginManager().registerEvents(new InventoryClickListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerArmorChangeListener(), this);
+        // TODO: Add code for a big wither event
+        // TODO: Add the timber enchant
     }
 
     @Override

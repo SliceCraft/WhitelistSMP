@@ -85,7 +85,7 @@ public class ItemEffectGUI {
             } else if (event.getSlot() == 16){
                 EditItemEffectGUI.openGui((Player) event.getWhoClicked(), id, ArmorType.valueOf(NBTHandler.getInt(clickedItem, "armoreffect-type")), TrimType.valueOf(NBTHandler.getInt(clickedItem, "armoreffect-trim")), EffectType.valueOf(NBTHandler.getInt(clickedItem, "armoreffect-effect")), NBTHandler.getInt(clickedItem, "armoreffect-strength"), 2);
             } else if (event.getSlot() == 37){
-                if(id != null) ConfigHandler.updateExistingEffect(plugin, id, ArmorType.valueOf(NBTHandler.getInt(clickedItem, "armoreffect-type")), TrimType.valueOf(NBTHandler.getInt(clickedItem, "armoreffect-trim")), EffectType.valueOf(NBTHandler.getInt(clickedItem, "armoreffect-effect")), NBTHandler.getInt(clickedItem, "armoreffect-strength"));
+                ConfigHandler.updateEffect(id, ArmorType.valueOf(NBTHandler.getInt(clickedItem, "armoreffect-type")), TrimType.valueOf(NBTHandler.getInt(clickedItem, "armoreffect-trim")), EffectType.valueOf(NBTHandler.getInt(clickedItem, "armoreffect-effect")), NBTHandler.getInt(clickedItem, "armoreffect-strength"));
                 ItemEffectsGUI.openGui((Player) event.getWhoClicked());
             }
         }

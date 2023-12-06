@@ -24,27 +24,35 @@ public class ItemEffectsGUI {
     static Plugin plugin = WhitelistSMP.getPlugin(WhitelistSMP.class);
 
     public static void openGui(Player player) {
-        Inventory inventory = GUIHandler.createDefaultInventory(54, ChatColor.RED + "ArmorEffects");
+        openGui(player, 0);
+    }
 
+    public static void openGui(Player player, int page) {
         FileConfiguration config = plugin.getConfig();
-
         Set<String> armorKeys = config.getConfigurationSection("armoreffects").getKeys(false);
         ArrayList<String> armorKeyList = new ArrayList<>(armorKeys);
-        for (int i = 0; i < armorKeyList.size(); i++) {
+
+        Inventory inventory = GUIHandler.createDefaultInventory(54, ChatColor.RED + "ArmorEffects" + ((armorKeyList.size() - 1) / 18 >= 1 ? " (Page " + (page + 1) + "/" + (((armorKeyList.size() - 1) / 18) + 1) + ")" : ""));
+
+        for (int i = page * 18; i < ((page + 1) * 18) && (i < armorKeyList.size()); i++) {
             ArmorType armorType = ArmorType.valueOf(config.getInt("armoreffects." + armorKeyList.get(i) + ".type"));
             TrimType trimType = TrimType.valueOf(config.getInt("armoreffects." + armorKeyList.get(i) + ".trim"));
             ItemStack helmet = new ItemStack(armorType.getHelmet());
             ItemStack trim = TypeToItemStack.convertTrim(trimType);
-            NBTHandler.setInt(helmet, "armoreffect-id", i);
-            NBTHandler.setInt(trim, "armoreffect-id", i);
-            if (i >= 0 && i <= 8) {
-                inventory.setItem(i, helmet);
-                inventory.setItem(i + 9, trim);
-            } else if (i >= 9 && i <= 17) {
-                inventory.setItem(i + 9, helmet);
-                inventory.setItem(i + 18, trim);
+            NBTHandler.setInt(helmet, "armoreffect-id", Integer.parseInt(armorKeyList.get(i)));
+            NBTHandler.setInt(trim, "armoreffect-id", Integer.parseInt(armorKeyList.get(i)));
+            if (i % 18 >= 0 && i % 18 <= 8) {
+                inventory.setItem(i % 18, helmet);
+                inventory.setItem(i % 18 + 9, trim);
+            } else if (i % 18 >= 9 && i % 18 <= 17) {
+                inventory.setItem(i % 18 + 18, helmet);
+                inventory.setItem(i % 18 + 27, trim);
             } else {
-                System.out.println("Too many armor effects, can't display them all");
+                if(player.hasPermission("whitelistsmp.armoreffects")){
+                    player.sendMessage("This should never happen, if this message appears don't change the config and contact Slice");
+                }else{
+                    player.sendMessage("This should never happen, if this message appears tell staff to contact Slice");
+                }
             }
         }
 
@@ -54,6 +62,26 @@ public class ItemEffectsGUI {
             newItemEffectMeta.setDisplayName(ChatColor.GREEN + "Create ArmorEffect");
             newItemEffect.setItemMeta(newItemEffectMeta);
             inventory.setItem(45, newItemEffect);
+        }
+
+        if((armorKeyList.size() - 1) / 18 >= 1){
+            if(page > 0){
+                ItemStack leftArrowItem = new ItemStack(Material.ARROW);
+                ItemMeta leftArrowItemMeta = leftArrowItem.getItemMeta();
+                leftArrowItemMeta.setDisplayName(ChatColor.GREEN + "Previous Page");
+                leftArrowItem.setItemMeta(leftArrowItemMeta);
+                NBTHandler.setInt(leftArrowItem, "armoreffect-page", page);
+                inventory.setItem(48, leftArrowItem);
+            }
+
+            if((armorKeyList.size() - 1) / 18 >= page + 1){
+                ItemStack rightArrowItem = new ItemStack(Material.ARROW);
+                ItemMeta rightArrowItemMeta = rightArrowItem.getItemMeta();
+                rightArrowItemMeta.setDisplayName(ChatColor.GREEN + "Next Page");
+                rightArrowItem.setItemMeta(rightArrowItemMeta);
+                NBTHandler.setInt(rightArrowItem, "armoreffect-page", page);
+                inventory.setItem(50, rightArrowItem);
+            }
         }
 
         ItemStack item1 = new ItemStack(Material.BARRIER);
@@ -74,6 +102,19 @@ public class ItemEffectsGUI {
             event.getWhoClicked().closeInventory();
         } else if (clickedItem.getType() == Material.GREEN_CONCRETE) {
             ItemEffectGUI.openGui((Player) event.getWhoClicked(), null);
+        } else if(clickedItem.getType() == Material.ARROW){
+            FileConfiguration config = plugin.getConfig();
+            Set<String> armorKeys = config.getConfigurationSection("armoreffects").getKeys(false);
+            ArrayList<String> armorKeyList = new ArrayList<>(armorKeys);
+            int page = NBTHandler.getInt(clickedItem, "armoreffect-page");
+            if((armorKeyList.size() - 1) / 18 >= 1){
+                if(page > 0 && event.getSlot() == 48){
+                    openGui((Player) event.getWhoClicked(), page - 1);
+                }
+                if((armorKeyList.size() - 1) / 18 >= page + 1 && event.getSlot() == 50){
+                    openGui((Player) event.getWhoClicked(), page + 1);
+                }
+            }
         }
     }
 }

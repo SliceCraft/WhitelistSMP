@@ -51,7 +51,7 @@ public class ItemEffectGUI {
                 ItemMeta deleteItemEffectMeta = deleteItemEffect.getItemMeta();
                 deleteItemEffectMeta.setDisplayName(ChatColor.RED + "Delete ArmorEffect");
                 deleteItemEffect.setItemMeta(deleteItemEffectMeta);
-                NBTHandler.setInt(newItemEffect, "armoreffect-id", effectid);
+                NBTHandler.setInt(deleteItemEffect, "armoreffect-id", effectid);
                 inventory.setItem(43, deleteItemEffect);
             }
         }
@@ -74,11 +74,12 @@ public class ItemEffectGUI {
         Integer id = NBTHandler.getInt(clickedItem, "armoreffect-id");
         if (clickedItem.getType() == Material.BARRIER && event.getSlot() == 40) {
             ItemEffectsGUI.openGui((Player) event.getWhoClicked());
-        } else if (clickedItem.getType() == Material.TNT) {
-            event.getWhoClicked().sendMessage("Placeholder for delete");
         } else {
             if(!event.getWhoClicked().hasPermission("whitelistsmp.armoreffects")) return;
-            if (event.getSlot() == 10){
+            if (clickedItem.getType() == Material.TNT) {
+                ConfigHandler.deleteEffect(id);
+                ItemEffectsGUI.openGui((Player) event.getWhoClicked());
+            }else if (event.getSlot() == 10){
                 EditItemEffectGUI.openGui((Player) event.getWhoClicked(), id, ArmorType.valueOf(NBTHandler.getInt(clickedItem, "armoreffect-type")), TrimType.valueOf(NBTHandler.getInt(clickedItem, "armoreffect-trim")), EffectType.valueOf(NBTHandler.getInt(clickedItem, "armoreffect-effect")), NBTHandler.getInt(clickedItem, "armoreffect-strength"), 0);
             } else if (event.getSlot() == 13){
                 EditItemEffectGUI.openGui((Player) event.getWhoClicked(), id, ArmorType.valueOf(NBTHandler.getInt(clickedItem, "armoreffect-type")), TrimType.valueOf(NBTHandler.getInt(clickedItem, "armoreffect-trim")), EffectType.valueOf(NBTHandler.getInt(clickedItem, "armoreffect-effect")), NBTHandler.getInt(clickedItem, "armoreffect-strength"), 1);

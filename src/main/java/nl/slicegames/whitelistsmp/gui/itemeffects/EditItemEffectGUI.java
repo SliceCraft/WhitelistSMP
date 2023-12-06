@@ -44,6 +44,7 @@ public class EditItemEffectGUI {
 
     public static void handleClick(InventoryClickEvent event){
         ItemStack clickedItem = event.getCurrentItem();
+        if(clickedItem == null) return;
 
         Integer edit = NBTHandler.getInt(event.getClickedInventory().getItem(0), "armoreffect-edit");
         if(event.getSlot() != 53 && edit != null && edit == 2){

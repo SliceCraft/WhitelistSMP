@@ -8,9 +8,11 @@ nl\slicegames\whitelistsmp\utils\armoreffects\TypeToItemStack$1.class
 nl\slicegames\whitelistsmp\utils\armoreffects\ArmorEffectsNBTDefaultData.class
 nl\slicegames\whitelistsmp\utils\armoreffects\ArmorType.class
 nl\slicegames\whitelistsmp\utils\armoreffects\TypeToItemStack.class
+nl\slicegames\whitelistsmp\utils\armoreffects\ArmorEffectsCheck.class
 nl\slicegames\whitelistsmp\utils\gui\GUIHandler.class
 nl\slicegames\whitelistsmp\WhitelistSMP.class
 nl\slicegames\whitelistsmp\listeners\PlayerArmorChangeListener.class
 nl\slicegames\whitelistsmp\gui\itemeffects\ItemEffectGUI.class
 nl\slicegames\whitelistsmp\utils\ConfigHandler.class
+nl\slicegames\whitelistsmp\utils\armoreffects\CheckMissingEffects.class
 nl\slicegames\whitelistsmp\utils\armoreffects\TrimType.class

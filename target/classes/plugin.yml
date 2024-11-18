@@ -1,7 +1,0 @@
-name: WhitelistSMP
-version: '1.0'
-main: nl.slicegames.whitelistsmp.WhitelistSMP
-api-version: '1.20'
-commands:
-  armoreffects:
-    description: Setup armor effects
